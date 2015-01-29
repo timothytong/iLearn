@@ -8,32 +8,38 @@
 
 import UIKit
 
-class LoginCellTableViewCell: UITableViewCell {
+class LoginCell: UITableViewCell{
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var input: UITextField!
     @IBOutlet weak var separatorLine: UIImageView!
+    @IBOutlet weak var inputBottomConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        input.layer.borderColor = UIColor.whiteColor().CGColor
         input.textColor = UIColor.redColor()
-        input.layer.borderWidth = 0
-        input.backgroundColor = UIColor.clearColor()
+        input.borderStyle = UITextBorderStyle.None
+        input.backgroundColor = UIColor(red: 31.0/255.0, green: 31.0/255.0, blue: 31.0/255.0, alpha: 1)
         var fontSize:CGFloat = 34
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad{
+        if Constants.is_ipad(){
             fontSize += 20
         }
-        if UIScreen.mainScreen().bounds.height < 568{
-            fontSize -= 5
+        else{
+            if Constants.is_iPhone4(){
+                fontSize -= 5
+            }
+            else{
+                inputBottomConstraint.constant += 15
+            }
         }
         input.font = UIFont(name: "Avenir Next Condensed", size: fontSize)
+        
+        
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
-
+    
 }

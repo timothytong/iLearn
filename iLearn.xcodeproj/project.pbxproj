@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330867F31A7AA204004F96C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330867F21A7AA204004F96C1 /* Constants.swift */; };
 		33976FC71A76C4E3005C8F9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33976FC61A76C4E3005C8F9B /* AppDelegate.swift */; };
 		33976FCA1A76C4E3005C8F9B /* iLearn.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33976FC81A76C4E3005C8F9B /* iLearn.xcdatamodeld */; };
 		33976FCC1A76C4E3005C8F9B /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33976FCB1A76C4E3005C8F9B /* LoginController.swift */; };
@@ -16,7 +17,7 @@
 		33976FE01A76C4E3005C8F9B /* iLearnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */; };
 		33FCD49C1A79CE130082CC08 /* LoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33FCD49B1A79CE130082CC08 /* LoginCell.xib */; };
 		33FCD49E1A79CE980082CC08 /* SeparatorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FCD49D1A79CE980082CC08 /* SeparatorLine.png */; };
-		33FCD4A11A79D92E0082CC08 /* LoginCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCD4A01A79D92E0082CC08 /* LoginCellTableViewCell.swift */; };
+		33FCD4A11A79D92E0082CC08 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCD4A01A79D92E0082CC08 /* LoginCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		330867F21A7AA204004F96C1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		33976FC11A76C4E3005C8F9B /* iLearn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iLearn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33976FC51A76C4E3005C8F9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33976FC61A76C4E3005C8F9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +45,7 @@
 		33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iLearnTests.swift; sourceTree = "<group>"; };
 		33FCD49B1A79CE130082CC08 /* LoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginCell.xib; sourceTree = "<group>"; };
 		33FCD49D1A79CE980082CC08 /* SeparatorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SeparatorLine.png; path = images/SeparatorLine.png; sourceTree = "<group>"; };
-		33FCD4A01A79D92E0082CC08 /* LoginCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCellTableViewCell.swift; sourceTree = "<group>"; };
+		33FCD4A01A79D92E0082CC08 /* LoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				33976FD21A76C4E3005C8F9B /* LaunchScreen.xib */,
 				33976FC81A76C4E3005C8F9B /* iLearn.xcdatamodeld */,
 				33976FC41A76C4E3005C8F9B /* Supporting Files */,
+				330867F21A7AA204004F96C1 /* Constants.swift */,
 			);
 			path = iLearn;
 			sourceTree = "<group>";
@@ -135,7 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				33FCD49B1A79CE130082CC08 /* LoginCell.xib */,
-				33FCD4A01A79D92E0082CC08 /* LoginCellTableViewCell.swift */,
+				33FCD4A01A79D92E0082CC08 /* LoginCell.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -242,10 +245,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				330867F31A7AA204004F96C1 /* Constants.swift in Sources */,
 				33976FCC1A76C4E3005C8F9B /* LoginController.swift in Sources */,
 				33976FCA1A76C4E3005C8F9B /* iLearn.xcdatamodeld in Sources */,
 				33976FC71A76C4E3005C8F9B /* AppDelegate.swift in Sources */,
-				33FCD4A11A79D92E0082CC08 /* LoginCellTableViewCell.swift in Sources */,
+				33FCD4A11A79D92E0082CC08 /* LoginCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

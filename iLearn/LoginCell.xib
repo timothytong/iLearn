@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" restorationIdentifier="LoginCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoginCell" rowHeight="100" id="fe9-JU-3kz" customClass="LoginCellTableViewCell" customModule="iLearn" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="LoginCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoginCell" rowHeight="100" id="fe9-JU-3kz" customClass="LoginCell" customModule="iLearn" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fe9-JU-3kz" id="IdC-RJ-5m8">
@@ -32,7 +32,7 @@
                             </mask>
                         </variation>
                     </textField>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeD-Yc-suU">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeD-Yc-suU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="2" id="1rb-n5-rqa"/>
@@ -59,7 +59,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.12156862745098039" green="0.12156862745098039" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="W0j-tr-Bma" firstAttribute="leading" secondItem="IdC-RJ-5m8" secondAttribute="leadingMargin" constant="46" id="46a-s1-fRQ"/>
                     <constraint firstAttribute="leadingMargin" secondItem="YeD-Yc-suU" secondAttribute="leading" constant="8" id="L4X-4D-fvC"/>
@@ -93,9 +93,10 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
-                <outlet property="input" destination="W0j-tr-Bma" id="DuC-wf-Z6P"/>
-                <outlet property="label" destination="YFy-nd-dXa" id="bZk-dq-uBo"/>
-                <outlet property="separatorLine" destination="YeD-Yc-suU" id="TZf-AR-QK8"/>
+                <outlet property="input" destination="W0j-tr-Bma" id="PQq-TX-fOu"/>
+                <outlet property="inputBottomConstraint" destination="SOT-cQ-uOV" id="jI5-uB-H20"/>
+                <outlet property="label" destination="YFy-nd-dXa" id="DGB-Je-Glx"/>
+                <outlet property="separatorLine" destination="YeD-Yc-suU" id="Psu-ck-MxL"/>
             </connections>
             <point key="canvasLocation" x="386" y="374"/>
         </tableViewCell>

@@ -13,12 +13,13 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var iLearnLabel: UILabel!
     @IBOutlet weak var loginTable: UITableView!
     @IBOutlet weak var iLearnTopConstraint: NSLayoutConstraint!
-    var cellArray:Array<LoginCellTableViewCell>!
-    let is_iPad = UIDevice.currentDevice().userInterfaceIdiom == .Pad ? true : false
-    let is_iPhone4 = UIScreen.mainScreen().bounds.height < 568 ? true : false
+    @IBOutlet weak var loginTableHeightConstraint: NSLayoutConstraint!
+    var cellArray:Array<LoginCell>!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        cellArray = Array<LoginCellTableViewCell>()
+        println(UIScreen.mainScreen().bounds.height)
+        cellArray = Array<LoginCell>()
         loginTable.delegate = self
         loginTable.dataSource = self
         let loginCellNib = UINib(nibName: "LoginCell", bundle: nil)
@@ -26,12 +27,21 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         loginTable.reloadData()
         loginTable.scrollEnabled = false
         loginTable.separatorStyle = .None
-        if is_iPad{
+        if Constants.is_ipad(){
             iLearnLabel.font = iLearnLabel.font.fontWithSize(100)
         }
-        if is_iPhone4{
-            iLearnTopConstraint.constant -= 80
+        else{
+            if Constants.is_iPhone4(){
+                iLearnTopConstraint.constant -= 80
+            }
+            else{
+                loginTableHeightConstraint.constant += 60
+                if Constants.is_iPhone5(){
+                    iLearnTopConstraint.constant -= 40
+                }
+            }
         }
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -40,7 +50,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         // Dispose of any resources that can be recreated.
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = loginTable.dequeueReusableCellWithIdentifier("LoginCell", forIndexPath: indexPath) as LoginCellTableViewCell
+        var cell = loginTable.dequeueReusableCellWithIdentifier("LoginCell", forIndexPath: indexPath) as LoginCell
         var sep = UIImage(named: "SeparatorLine.png")
         cell.separatorLine.image = sep
         cell.selectionStyle = .None
@@ -65,15 +75,24 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         return 2
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height:CGFloat = is_iPad ? 240 : 100
+        var height:CGFloat = 0
+        if Constants.is_ipad(){
+            height = 240
+        }else{
+            height = Constants.is_iPhone4() ? 100.0 : 130.0
+        }
+        println("Returning \(height)")
         return height
     }
     func textFieldDidBeginEditing(textField: UITextField) {
         
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var selCell = cellArray[indexPath.row] as LoginCellTableViewCell
+        var selCell = cellArray[indexPath.row] as LoginCell
         selCell.input.becomeFirstResponder()
+    }
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
 }
 
