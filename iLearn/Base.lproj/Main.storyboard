@@ -93,6 +93,7 @@
                         <outlet property="iLearnLabel" destination="0w0-gu-DWj" id="eOj-58-fQd"/>
                         <outlet property="iLearnTopConstraint" destination="bED-hf-QhS" id="g7D-Ic-Ed0"/>
                         <outlet property="loginTable" destination="rl4-Kh-uiV" id="KrH-Yz-plu"/>
+                        <outlet property="loginTableHeightConstraint" destination="07E-bJ-1AI" id="dn1-rB-lcS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

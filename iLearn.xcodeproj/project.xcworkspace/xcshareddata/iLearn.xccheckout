@@ -12,20 +12,24 @@
 	<dict>
 		<key>2FCEC0448A437BAF099EC739EE692CD67CD96377</key>
 		<string>https://github.com/timothytong/DMCalc.git</string>
+		<key>816C22D03A22B8F5CB5E95C47DAFF6F67F53C381</key>
+		<string>github.com:timothytong/iLearn.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>iLearn/iLearn.xcodeproj</string>
+	<string>iLearn.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2FCEC0448A437BAF099EC739EE692CD67CD96377</key>
 		<string>../../..</string>
+		<key>816C22D03A22B8F5CB5E95C47DAFF6F67F53C381</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/timothytong/DMCalc.git</string>
+	<string>github.com:timothytong/iLearn.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2FCEC0448A437BAF099EC739EE692CD67CD96377</string>
+	<string>816C22D03A22B8F5CB5E95C47DAFF6F67F53C381</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -34,7 +38,15 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>2FCEC0448A437BAF099EC739EE692CD67CD96377</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Xcode%20Projects</string>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>816C22D03A22B8F5CB5E95C47DAFF6F67F53C381</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iLearn</string>
 		</dict>
 	</array>
 </dict>
