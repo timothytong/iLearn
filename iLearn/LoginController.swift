@@ -10,15 +10,33 @@
 import UIKit
 
 class LoginController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+    @IBOutlet weak var preloadView: UIView!
+    @IBOutlet weak var oneSecLabel: UILabel!
     @IBOutlet weak var iLearnLabel: UILabel!
     @IBOutlet weak var loginTable: UITableView!
     @IBOutlet weak var iLearnTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var loginTableHeightConstraint: NSLayoutConstraint!
+    var timeoutTimer:NSTimer!
+    var timeoutCount = 0
     var cellArray:Array<LoginCell>!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        println(UIScreen.mainScreen().bounds.height)
+        timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
+        APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
+            var sess = SessionVars.sharedInstance
+            sess.cookie = jsessionID
+            self.timeoutTimer.invalidate()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
+                    self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height)
+                    }, completion: { (complete) -> Void in
+                })
+            })
+            }, errorHandler: { () -> () in
+                self.timeoutTimer.invalidate()
+                self.oneSecLabel.text = "connection error."
+        })
         cellArray = Array<LoginCell>()
         loginTable.delegate = self
         loginTable.dataSource = self
@@ -45,6 +63,20 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    func timeOut(){
+        println("timeout")
+        timeoutCount++
+        if timeoutCount == 1{
+            oneSecLabel.text = "ok maybe more."
+            if !Constants.is_ipad(){
+                oneSecLabel.font = oneSecLabel.font.fontWithSize(50)
+            }
+        }
+        else if timeoutCount == 2{
+            oneSecLabel.text = "awe, timed out."
+            self.timeoutTimer.invalidate()
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -81,7 +113,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         }else{
             height = Constants.is_iPhone4() ? 100.0 : 130.0
         }
-//        println("Returning \(height)")
+        //        println("Returning \(height)")
         return height
     }
     func textFieldDidBeginEditing(textField: UITextField) {

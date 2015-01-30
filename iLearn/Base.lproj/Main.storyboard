@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--LoginController-->
@@ -17,19 +18,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="iLearn" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w0-gu-DWj">
-                                <rect key="frame" x="230.5" y="170" width="138.5" height="89"/>
+                                <rect key="frame" x="230" y="-63" width="138.5" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="J3h-Mb-Okd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="65"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="332" y="170" width="139" height="89"/>
-                                </variation>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rl4-Kh-uiV">
-                                <rect key="frame" x="150" y="300" width="300" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="07E-bJ-1AI"/>
@@ -58,13 +55,34 @@
                                     </mask>
                                 </variation>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ElJ-m8-QU6">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="one sec." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im3-Nf-xPd">
+                                        <rect key="frame" x="8" y="252" width="584" height="96"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="70"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="im3-Nf-xPd" secondAttribute="centerY" id="BHE-5K-Fbs"/>
+                                    <constraint firstItem="im3-Nf-xPd" firstAttribute="leading" secondItem="ElJ-m8-QU6" secondAttribute="leading" constant="8" id="Ksi-Dk-IPG"/>
+                                    <constraint firstAttribute="trailing" secondItem="im3-Nf-xPd" secondAttribute="trailing" constant="8" id="b50-ae-OQN"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.12156862745098039" green="0.12156862745098039" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="ElJ-m8-QU6" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="7mo-yg-0KE"/>
                             <constraint firstItem="0w0-gu-DWj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="150" id="9qH-qw-ZM1"/>
                             <constraint firstAttribute="centerX" secondItem="0w0-gu-DWj" secondAttribute="centerX" id="Veh-Ns-mV4"/>
+                            <constraint firstItem="ElJ-m8-QU6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="YSs-s0-Koq"/>
                             <constraint firstItem="0w0-gu-DWj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="120" id="bED-hf-QhS"/>
                             <constraint firstItem="rl4-Kh-uiV" firstAttribute="top" secondItem="0w0-gu-DWj" secondAttribute="bottom" constant="122" id="i42-BZ-axk"/>
+                            <constraint firstItem="ElJ-m8-QU6" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="rxM-S2-sju"/>
+                            <constraint firstItem="ElJ-m8-QU6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="t72-gd-MdU"/>
                             <constraint firstAttribute="centerX" secondItem="rl4-Kh-uiV" secondAttribute="centerX" id="uXz-xJ-oRb"/>
                             <constraint firstItem="rl4-Kh-uiV" firstAttribute="top" secondItem="0w0-gu-DWj" secondAttribute="bottom" constant="51" id="uaJ-ej-db8"/>
                         </constraints>
@@ -94,11 +112,13 @@
                         <outlet property="iLearnTopConstraint" destination="bED-hf-QhS" id="g7D-Ic-Ed0"/>
                         <outlet property="loginTable" destination="rl4-Kh-uiV" id="KrH-Yz-plu"/>
                         <outlet property="loginTableHeightConstraint" destination="07E-bJ-1AI" id="dn1-rB-lcS"/>
+                        <outlet property="oneSecLabel" destination="im3-Nf-xPd" id="ckR-M8-dIR"/>
+                        <outlet property="preloadView" destination="ElJ-m8-QU6" id="axN-Lj-rcW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="159.75" y="463.5"/>
+            <point key="canvasLocation" x="159" y="463"/>
         </scene>
     </scenes>
 </document>

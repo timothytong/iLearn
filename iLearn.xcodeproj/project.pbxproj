@@ -16,6 +16,7 @@
 		33976FD41A76C4E3005C8F9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33976FD21A76C4E3005C8F9B /* LaunchScreen.xib */; };
 		33976FE01A76C4E3005C8F9B /* iLearnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */; };
 		33D3552B1A7B0A9500441D04 /* SessionVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3552A1A7B0A9500441D04 /* SessionVars.swift */; };
+		33D3552E1A7B33CB00441D04 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3552D1A7B33CB00441D04 /* APICaller.swift */; };
 		33FCD49C1A79CE130082CC08 /* LoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33FCD49B1A79CE130082CC08 /* LoginCell.xib */; };
 		33FCD49E1A79CE980082CC08 /* SeparatorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FCD49D1A79CE980082CC08 /* SeparatorLine.png */; };
 		33FCD4A11A79D92E0082CC08 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FCD4A01A79D92E0082CC08 /* LoginCell.swift */; };
@@ -45,6 +46,7 @@
 		33976FDE1A76C4E3005C8F9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iLearnTests.swift; sourceTree = "<group>"; };
 		33D3552A1A7B0A9500441D04 /* SessionVars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVars.swift; sourceTree = "<group>"; };
+		33D3552D1A7B33CB00441D04 /* APICaller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		33FCD49B1A79CE130082CC08 /* LoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginCell.xib; sourceTree = "<group>"; };
 		33FCD49D1A79CE980082CC08 /* SeparatorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SeparatorLine.png; path = images/SeparatorLine.png; sourceTree = "<group>"; };
 		33FCD4A01A79D92E0082CC08 /* LoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
@@ -89,9 +91,9 @@
 		33976FC31A76C4E3005C8F9B /* iLearn */ = {
 			isa = PBXGroup;
 			children = (
+				33D3552F1A7B33D600441D04 /* Function */,
 				33FCD4981A79CDC50082CC08 /* UI */,
 				33976FC61A76C4E3005C8F9B /* AppDelegate.swift */,
-				33D3552A1A7B0A9500441D04 /* SessionVars.swift */,
 				33976FCB1A76C4E3005C8F9B /* LoginController.swift */,
 				33976FCD1A76C4E3005C8F9B /* Main.storyboard */,
 				33976FD01A76C4E3005C8F9B /* Images.xcassets */,
@@ -127,6 +129,15 @@
 				33976FDE1A76C4E3005C8F9B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		33D3552F1A7B33D600441D04 /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				33D3552A1A7B0A9500441D04 /* SessionVars.swift */,
+				33D3552D1A7B33CB00441D04 /* APICaller.swift */,
+			);
+			name = Function;
 			sourceTree = "<group>";
 		};
 		33FCD4981A79CDC50082CC08 /* UI */ = {
@@ -251,6 +262,7 @@
 				330867F31A7AA204004F96C1 /* Constants.swift in Sources */,
 				33976FCC1A76C4E3005C8F9B /* LoginController.swift in Sources */,
 				33D3552B1A7B0A9500441D04 /* SessionVars.swift in Sources */,
+				33D3552E1A7B33CB00441D04 /* APICaller.swift in Sources */,
 				33976FCA1A76C4E3005C8F9B /* iLearn.xcdatamodeld in Sources */,
 				33976FC71A76C4E3005C8F9B /* AppDelegate.swift in Sources */,
 				33FCD4A11A79D92E0082CC08 /* LoginCell.swift in Sources */,
