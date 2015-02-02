@@ -37,7 +37,6 @@ class APICaller{
         task.resume()
     }
     class func loginWithParams(params:String, jsessionID cookie:String, successHandlerWithCASTGCCookieParam completionHandler:(String)->(), errorHandler failureHandler:()->()){
-        let params = "username=kyttong&password=Latios1995&lt=e1s1&_eventId=submit&submit=LOGIN"
         var request = NSMutableURLRequest(URL: NSURL(string: "https://cas.uwaterloo.ca/cas/login")!)
         var session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
@@ -66,11 +65,12 @@ class APICaller{
                     if let cookies = httpResponse.allHeaderFields["Set-Cookie"] as? String {
                         println("Extracted cookie: \(cookies)")
                         let cookie:NSString = cookies
-                        if cookies.rangeOfString("JSESSIONID=") != nil{
+                        if cookies.rangeOfString("CASTGC=") != nil{
                             var start = cookies.rangeOfString("CASTGC=")!.endIndex
-                            var substring : NSString = cookies.substringFromIndex(start)
-                            var end = cookies.rangeOfString(";")!.endIndex
-                            let CASTGC : String = substring.substringWithRange(NSMakeRange(0, substring.length - 1))
+                            var substring : String = cookies.substringFromIndex(start)
+                            println("SUBSTRING:::::\n\n "+substring)
+                            var end = substring.rangeOfString("-cas")!.endIndex
+                            let CASTGC = substring.substringToIndex(end)
                             println("CASTGC: "+CASTGC)
                             completionHandler(CASTGC)
                         }

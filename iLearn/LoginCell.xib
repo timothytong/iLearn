@@ -37,8 +37,7 @@
                                 <include reference="SGk-Tc-goK"/>
                             </mask>
                         </variation>
-                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                            <rect key="frame" x="108" y="-8" width="310" height="50"/>
+                        <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
                                 <include reference="NTp-lj-6gU"/>
                                 <include reference="wly-Gc-D6d"/>

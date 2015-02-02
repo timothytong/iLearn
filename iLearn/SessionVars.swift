@@ -8,7 +8,8 @@
 
 import Foundation
 class SessionVars{
-    var cookie = ""
+    var jsessionID = ""
+    var CASTGC = ""
     class var sharedInstance: SessionVars{
         struct Static{
             static var instance: SessionVars?

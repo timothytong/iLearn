@@ -19,18 +19,19 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     var timeoutTimer:NSTimer!
     var timeoutCount = 0
     var cellArray:Array<LoginCell>!
-    
+    var isEditing = false
     override func viewDidLoad() {
         super.viewDidLoad()
         timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
         APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
             var sess = SessionVars.sharedInstance
-            sess.cookie = jsessionID
+            sess.jsessionID = jsessionID
             self.timeoutTimer.invalidate()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
                     self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height)
                     }, completion: { (complete) -> Void in
+                        self.preloadView.removeFromSuperview()
                 })
             })
             }, errorHandler: { () -> () in
@@ -91,11 +92,14 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
             cell.label.text = "watid."
             cell.separatorLine.alpha = 0
             cellArray.append(cell)
+            cell.input.delegate = self
             return cell
         case 1:
             cell.label.text = "password."
+            cell.input.returnKeyType = .Done
             cell.input.secureTextEntry = true
             cellArray.append(cell)
+            cell.input.delegate = self
             return cell
         default:
             break
@@ -117,7 +121,43 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         return height
     }
     func textFieldDidBeginEditing(textField: UITextField) {
-        
+        if !isEditing{
+            isEditing = true
+            if !Constants.is_ipad(){
+                var offset:CGFloat = 180
+                if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
+                    offset /= 1.5
+                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                        for subview in self.view.subviews{
+                            var sView = subview as UIView
+                            sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y - offset)
+                        }
+                        }, completion: { (complete) -> Void in
+                    })
+                })
+            }
+            
+        }
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        switch textField{
+        case cellArray[0].input:
+            cellArray[1].input.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+            finishEditing()
+            var sess = SessionVars.sharedInstance
+            let params = "username=\(cellArray[0].input.text)&password=\(textField.text)&lt=e1s1&_eventId=submit&submit=LOGIN"
+            println(params)
+            APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
+                sess.CASTGC = CASTGC
+            }, errorHandler: { () -> () in
+                
+            })
+        }
+        return true;
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var selCell = cellArray[indexPath.row] as LoginCell
@@ -125,6 +165,39 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        if isEditing{
+            for cell in cellArray{
+                var loginCell = cell as LoginCell
+                if loginCell.input.isFirstResponder(){
+                    loginCell.input.resignFirstResponder()
+                }
+            }
+            finishEditing()
+        }
+        
+    }
+    func finishEditing(){
+        if !Constants.is_ipad(){
+            var offset:CGFloat = 180
+            if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
+                offset /= 1.5
+            }
+            println("\(offset)")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                    for subview in self.view.subviews{
+                        var sView = subview as UIView
+                        sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y + offset)
+                    }
+                    }, completion: { (complete) -> Void in
+                        self.isEditing = false
+                })
+                
+                
+            })
+        }
     }
 }
 

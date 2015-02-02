@@ -64,12 +64,22 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yqb-X9-5eT">
+                                        <rect key="frame" x="0.0" y="-2" width="600" height="2"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="TvF-Rr-Tor"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Yqb-X9-5eT" secondAttribute="trailing" id="9KS-ku-e0A"/>
                                     <constraint firstAttribute="centerY" secondItem="im3-Nf-xPd" secondAttribute="centerY" id="BHE-5K-Fbs"/>
                                     <constraint firstItem="im3-Nf-xPd" firstAttribute="leading" secondItem="ElJ-m8-QU6" secondAttribute="leading" constant="8" id="Ksi-Dk-IPG"/>
+                                    <constraint firstItem="Yqb-X9-5eT" firstAttribute="leading" secondItem="ElJ-m8-QU6" secondAttribute="leading" id="Pgh-xv-VBI"/>
                                     <constraint firstAttribute="trailing" secondItem="im3-Nf-xPd" secondAttribute="trailing" constant="8" id="b50-ae-OQN"/>
+                                    <constraint firstItem="Yqb-X9-5eT" firstAttribute="top" secondItem="ElJ-m8-QU6" secondAttribute="top" constant="-2" id="hkq-qC-Rbf"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -88,22 +98,22 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="9qH-qw-ZM1"/>
-                                <exclude reference="bED-hf-QhS"/>
                                 <exclude reference="i42-BZ-axk"/>
                                 <exclude reference="uaJ-ej-db8"/>
+                                <exclude reference="9qH-qw-ZM1"/>
+                                <exclude reference="bED-hf-QhS"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="constraints">
-                                <include reference="bED-hf-QhS"/>
                                 <include reference="uaJ-ej-db8"/>
+                                <include reference="bED-hf-QhS"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
-                                <include reference="9qH-qw-ZM1"/>
                                 <include reference="i42-BZ-axk"/>
+                                <include reference="9qH-qw-ZM1"/>
                             </mask>
                         </variation>
                     </view>
