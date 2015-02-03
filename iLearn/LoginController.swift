@@ -16,27 +16,40 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var loginTable: UITableView!
     @IBOutlet weak var iLearnTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var loginTableHeightConstraint: NSLayoutConstraint!
-    var timeoutTimer:NSTimer!
-    var timeoutCount = 0
-    var cellArray:Array<LoginCell>!
-    var isEditing = false
+    @IBOutlet weak var iLearnTableVertSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var iLearnBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginStatusVertSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginTableVertSpaceContraint: NSLayoutConstraint!
+    var sessionQueue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL),
+    timeoutTimer:NSTimer!,
+    timeoutCount = 0,
+    cellArray:Array<LoginCell>!,
+    isEditing = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.bringSubviewToFront(preloadView)
+        loginButton.layer.borderColor = UIColor.whiteColor().CGColor
+        loginButton.layer.borderWidth = 0.5
+        loginButton.layer.cornerRadius = 1
         timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
-        APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
-            var sess = SessionVars.sharedInstance
-            sess.jsessionID = jsessionID
-            self.timeoutTimer.invalidate()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
-                    self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height)
-                    }, completion: { (complete) -> Void in
-                        self.preloadView.removeFromSuperview()
-                })
-            })
-            }, errorHandler: { () -> () in
+        dispatch_async(self.sessionQueue, { () -> Void in
+            APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
+                var sess = SessionVars.sharedInstance
+                sess.jsessionID = jsessionID
                 self.timeoutTimer.invalidate()
-                self.oneSecLabel.text = "connection error."
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
+                        self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height)
+                        }, completion: { (complete) -> Void in
+                            self.preloadView.removeFromSuperview()
+                    })
+                })
+                }, errorHandler: { () -> () in
+                    self.timeoutTimer.invalidate()
+                    self.oneSecLabel.text = "connection error."
+            })
         })
         cellArray = Array<LoginCell>()
         loginTable.delegate = self
@@ -50,15 +63,24 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
             iLearnLabel.font = iLearnLabel.font.fontWithSize(100)
         }
         else{
+            iLearnTableVertSpaceConstraint.constant -= 40
             if Constants.is_iPhone4(){
-                iLearnTopConstraint.constant -= 80
+                iLearnTopConstraint.constant -= 75
+                iLearnBottomConstraint.constant -= 10
+                loginTableVertSpaceContraint.constant += 15
             }
             else{
                 loginTableHeightConstraint.constant += 60
                 if Constants.is_iPhone5(){
-                    iLearnTopConstraint.constant -= 40
+                    iLearnTopConstraint.constant -= 80
+                }
+                else if Constants.is_iPhone6(){
+                    loginTableVertSpaceContraint.constant += 40
+                    loginStatusVertSpaceConstraint.constant = 30
+                    iLearnTableVertSpaceConstraint.constant += 60
                 }
             }
+            
         }
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -117,14 +139,14 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         }else{
             height = Constants.is_iPhone4() ? 100.0 : 130.0
         }
-        //        println("Returning \(height)")
         return height
     }
     func textFieldDidBeginEditing(textField: UITextField) {
         if !isEditing{
+                    textField.attributedPlaceholder = NSAttributedString(string: "")
             isEditing = true
             if !Constants.is_ipad(){
-                var offset:CGFloat = 180
+                var offset:CGFloat = 135
                 if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
                     offset /= 1.5
                 }
@@ -146,16 +168,30 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         case cellArray[0].input:
             cellArray[1].input.becomeFirstResponder()
         default:
-            textField.resignFirstResponder()
-            finishEditing()
-            var sess = SessionVars.sharedInstance
-            let params = "username=\(cellArray[0].input.text)&password=\(textField.text)&lt=e1s1&_eventId=submit&submit=LOGIN"
-            println(params)
-            APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
-                sess.CASTGC = CASTGC
-            }, errorHandler: { () -> () in
+            var usernameTextField = cellArray[0].input, pwTextField = cellArray[1].input
+            if(usernameTextField.text == "" || pwTextField.text == ""){
+                if(usernameTextField.text == ""){
+                    usernameTextField.attributedPlaceholder = NSAttributedString(string: "username please.", attributes: [NSForegroundColorAttributeName: UIColor.redColor()])
+                }
+                if(pwTextField.text == ""){
+                    pwTextField.attributedPlaceholder = NSAttributedString(string: "password please.", attributes: [NSForegroundColorAttributeName:UIColor.redColor()])
+                }
+            }
+            else{
+                textField.resignFirstResponder()
+                finishEditing()
+                var sess = SessionVars.sharedInstance
+                let params = "username=\(cellArray[0].input.text)&password=\(textField.text)&lt=e1s1&_eventId=submit&submit=LOGIN"
+                println(params)
+                dispatch_async(self.sessionQueue, { () -> Void in
+                    APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
+                        sess.CASTGC = CASTGC
+                        }, errorHandler: { () -> () in
+                            
+                    })
+                })
                 
-            })
+            }
         }
         return true;
     }
@@ -169,9 +205,8 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         if isEditing{
             for cell in cellArray{
-                var loginCell = cell as LoginCell
-                if loginCell.input.isFirstResponder(){
-                    loginCell.input.resignFirstResponder()
+                if cell.input.isFirstResponder(){
+                    cell.input.resignFirstResponder()
                 }
             }
             finishEditing()
@@ -180,7 +215,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     func finishEditing(){
         if !Constants.is_ipad(){
-            var offset:CGFloat = 180
+            var offset:CGFloat = 135
             if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
                 offset /= 1.5
             }

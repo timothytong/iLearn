@@ -27,6 +27,8 @@ class LoginCell: UITableViewCell{
         clrBtn.addTarget(self, action: "clearTxt", forControlEvents: .TouchUpInside)
         input.rightView = clrBtn
         input.rightViewMode = .WhileEditing
+        input.autocapitalizationType = .None
+        input.autocorrectionType = UITextAutocorrectionType.No
         var fontSize:CGFloat = 34
         if Constants.is_ipad(){
             fontSize += 15

@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 class Constants {
+    enum LearnStatus{
+        case NoToken
+        case Connected
+        case TokenExpired
+    }
+    private var status:LearnStatus!
     class func is_ipad() -> Bool{
         return UIDevice.currentDevice().userInterfaceIdiom == .Pad ? true : false
     }
@@ -20,6 +26,5 @@ class Constants {
     }
     class func is_iPhone6() -> Bool{
         return UIScreen.mainScreen().bounds.height > 736 ? true : false
-
     }
 }

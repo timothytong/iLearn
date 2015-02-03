@@ -15,6 +15,7 @@
 		33976FD11A76C4E3005C8F9B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33976FD01A76C4E3005C8F9B /* Images.xcassets */; };
 		33976FD41A76C4E3005C8F9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33976FD21A76C4E3005C8F9B /* LaunchScreen.xib */; };
 		33976FE01A76C4E3005C8F9B /* iLearnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */; };
+		3397D0BB1A80847000291897 /* cancel-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3397D0BA1A80847000291897 /* cancel-white.png */; };
 		33D3552B1A7B0A9500441D04 /* SessionVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3552A1A7B0A9500441D04 /* SessionVars.swift */; };
 		33D3552E1A7B33CB00441D04 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3552D1A7B33CB00441D04 /* APICaller.swift */; };
 		33FCD49C1A79CE130082CC08 /* LoginCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33FCD49B1A79CE130082CC08 /* LoginCell.xib */; };
@@ -45,6 +46,7 @@
 		33976FD91A76C4E3005C8F9B /* iLearnTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iLearnTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33976FDE1A76C4E3005C8F9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33976FDF1A76C4E3005C8F9B /* iLearnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iLearnTests.swift; sourceTree = "<group>"; };
+		3397D0BA1A80847000291897 /* cancel-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cancel-white.png"; path = "images/cancel-white.png"; sourceTree = "<group>"; };
 		33D3552A1A7B0A9500441D04 /* SessionVars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionVars.swift; sourceTree = "<group>"; };
 		33D3552D1A7B33CB00441D04 /* APICaller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		33FCD49B1A79CE130082CC08 /* LoginCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginCell.xib; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				33FCD49D1A79CE980082CC08 /* SeparatorLine.png */,
+				3397D0BA1A80847000291897 /* cancel-white.png */,
 				33976FC51A76C4E3005C8F9B /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -242,6 +245,7 @@
 				33FCD49C1A79CE130082CC08 /* LoginCell.xib in Resources */,
 				33976FD41A76C4E3005C8F9B /* LaunchScreen.xib in Resources */,
 				33976FD11A76C4E3005C8F9B /* Images.xcassets in Resources */,
+				3397D0BB1A80847000291897 /* cancel-white.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
