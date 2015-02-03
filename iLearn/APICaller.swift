@@ -36,7 +36,7 @@ class APICaller{
         })
         task.resume()
     }
-    class func loginWithParams(params:String, jsessionID cookie:String, successHandlerWithCASTGCCookieParam completionHandler:(String)->(), errorHandler failureHandler:()->()){
+    class func loginWithParams(params:String, jsessionID cookie:String, successHandlerWithCASTGCCookieParam completionHandler:(String)->(), errorHandler failureHandler:()->(), invalidCredHandler invalidHandler:()->()){
         var request = NSMutableURLRequest(URL: NSURL(string: "https://cas.uwaterloo.ca/cas/login")!)
         var session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
@@ -74,6 +74,14 @@ class APICaller{
                             println("CASTGC: "+CASTGC)
                             completionHandler(CASTGC)
                         }
+                        else{
+                            println("Invalid login!!!")
+                            invalidHandler()
+                        }
+                    }
+                    else{
+                        println("Invalid login!!!")
+                        invalidHandler()
                     }
                 }
                 

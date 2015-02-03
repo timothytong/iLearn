@@ -28,13 +28,21 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
     timeoutTimer:NSTimer!,
     timeoutCount = 0,
     cellArray:Array<LoginCell>!,
-    isEditing = false
+    isEditing = false,
+    transparentView:UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         view.bringSubviewToFront(preloadView)
         loginButton.layer.borderColor = UIColor.whiteColor().CGColor
         loginButton.layer.borderWidth = 0.5
         loginButton.layer.cornerRadius = 1
+        loginButton.addTarget(self, action: "loginBtnPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        transparentView = UIView(frame:view.frame)
+        transparentView.backgroundColor = UIColor.clearColor()
+        transparentView.alpha = 0
+        view.addSubview(transparentView)
+        
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
             self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
         })
@@ -182,42 +190,8 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         case cellArray[0].input:
             cellArray[1].input.becomeFirstResponder()
         default:
-            var usernameTextField = cellArray[0].input, pwTextField = cellArray[1].input
-            if(usernameTextField.text == "" || pwTextField.text == ""){
-                if(usernameTextField.text == ""){
-                    usernameTextField.attributedPlaceholder = NSAttributedString(string: "username please.", attributes: [NSForegroundColorAttributeName: UIColor.redColor()])
-                }
-                if(pwTextField.text == ""){
-                    pwTextField.attributedPlaceholder = NSAttributedString(string: "password please.", attributes: [NSForegroundColorAttributeName:UIColor.redColor()])
-                }
-            }
-            else{
-                textField.resignFirstResponder()
-                finishEditing()
-                statusLabel.text = "Connecting."
-                var sess = SessionVars.sharedInstance
-                let params = "username=\(cellArray[0].input.text)&password=\(textField.text)&lt=e1s1&_eventId=submit&submit=LOGIN"
-                println(params)
-                dispatch_async(self.sessionQueue, { () -> Void in
-                    APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
-                        sess.CASTGC = CASTGC
-                        
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            UIView.transitionWithView(self.cellArray[0].input, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
-                                self.cellArray[0].input.textColor = UIColor.greenColor()
-                                }, completion: { (complete) -> Void in
-                                    UIView.transitionWithView(self.cellArray[1].input, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
-                                        self.cellArray[1].input.textColor = UIColor.greenColor()
-                                        }, completion: { (complete) -> Void in
-                                            self.statusLabel.text = "Success."
-                                    })
-                            })
-                        })
-                        }, errorHandler: { () -> () in
-                            self.statusLabel.text = "Network error / invalid password."
-                    })
-                })
-                
+            if fieldsAreValid(){
+                login()
             }
         }
         return true;
@@ -259,7 +233,68 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         })
     }
     func loginBtnPressed(){
+        if fieldsAreValid(){
+            login()
+        }
+    }
+    func login(){
+        var username = "", password = ""
+        for (var i = 0; i < cellArray.count; i++){
+            var cell = cellArray[i]
+            if cell.input.isFirstResponder(){
+                cell.input.resignFirstResponder()
+            }
+            if i == 0{
+                username = cell.input.text
+            }
+            else if i == 1{
+                password = cell.input.text
+            }
+        }
+        finishEditing()
+        statusLabel.text = "Connecting."
+        var sess = SessionVars.sharedInstance
+        let params = "username=\(username)&password=\(password)&lt=e1s1&_eventId=submit&submit=LOGIN"
+        //        println(params)
+        dispatch_async(self.sessionQueue, { () -> Void in
+            APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
+                sess.CASTGC = CASTGC
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    UIView.transitionWithView(self.cellArray[0].input, duration: 0.25, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                        self.cellArray[0].input.textColor = UIColor.greenColor()
+                        }, completion: { (complete) -> Void in
+                            UIView.transitionWithView(self.cellArray[1].input, duration: 0.25, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                                self.cellArray[1].input.textColor = UIColor.greenColor()
+                                }, completion: { (complete) -> Void in
+                                    self.statusLabel.text = "Success."
+                            })
+                    })
+                })
+                }, errorHandler: { () -> () in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.statusLabel.text = "Network error."
+                    })
+                    
+                }, invalidCredHandler:{() -> () in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.statusLabel.text = "Invalid password."
+                    })
+            })
+        })
         
+    }
+    func fieldsAreValid()->Bool{
+        var usernameTextField = cellArray[0].input, pwTextField = cellArray[1].input
+        if(usernameTextField.text == "" || pwTextField.text == ""){
+            if(usernameTextField.text == ""){
+                usernameTextField.attributedPlaceholder = NSAttributedString(string: "username please.", attributes: [NSForegroundColorAttributeName: UIColor.redColor()])
+            }
+            if(pwTextField.text == ""){
+                pwTextField.attributedPlaceholder = NSAttributedString(string: "password please.", attributes: [NSForegroundColorAttributeName:UIColor.redColor()])
+            }
+            return false
+        }
+        return true
     }
 }
 
