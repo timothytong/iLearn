@@ -36,16 +36,16 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         loginButton.layer.borderWidth = 0.5
         loginButton.layer.cornerRadius = 1
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
-                self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
+            self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
         })
         
         dispatch_async(self.sessionQueue, { () -> Void in
             APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
-
+                
                 var sess = SessionVars.sharedInstance
                 sess.jsessionID = jsessionID
                 self.timeoutTimer.invalidate()
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
                         self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height + 2)
                         }, completion: { (complete) -> Void in
@@ -168,7 +168,8 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
                 UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                     for subview in self.view.subviews{
                         var sView = subview as UIView
-                        sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y - offset)
+                        //                        sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y - offset)
+                        sView.transform = CGAffineTransformMakeTranslation(0, -offset)
                     }
                     }, completion: { (complete) -> Void in
                 })
@@ -200,8 +201,20 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
                 dispatch_async(self.sessionQueue, { () -> Void in
                     APICaller.loginWithParams(params, jsessionID: sess.jsessionID, successHandlerWithCASTGCCookieParam: { (CASTGC) -> () in
                         sess.CASTGC = CASTGC
+                        
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            UIView.transitionWithView(self.cellArray[0].input, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                                self.cellArray[0].input.textColor = UIColor.greenColor()
+                                }, completion: { (complete) -> Void in
+                                    UIView.transitionWithView(self.cellArray[1].input, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                                        self.cellArray[1].input.textColor = UIColor.greenColor()
+                                        }, completion: { (complete) -> Void in
+                                            self.statusLabel.text = "Success."
+                                    })
+                            })
+                        })
                         }, errorHandler: { () -> () in
-                            
+                            self.statusLabel.text = "Network error / invalid password."
                     })
                 })
                 
@@ -228,6 +241,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         
     }
     func finishEditing(){
+        self.isEditing = false
         var offset:CGFloat = 135
         if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
             offset /= 1.5
@@ -236,14 +250,16 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
             UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                 for subview in self.view.subviews{
                     var sView = subview as UIView
-                    sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y + offset)
+                    //                    sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y + offset)
+                    sView.transform = CGAffineTransformIdentity
                 }
                 }, completion: { (complete) -> Void in
-                    self.isEditing = false
+                    
             })
-            
-            
         })
+    }
+    func loginBtnPressed(){
+        
     }
 }
 
