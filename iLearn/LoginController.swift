@@ -10,6 +10,8 @@
 import UIKit
 
 class LoginController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+    @IBOutlet weak var loginBtnHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginBtnWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var preloadView: UIView!
     @IBOutlet weak var oneSecLabel: UILabel!
     @IBOutlet weak var iLearnLabel: UILabel!
@@ -33,17 +35,23 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         loginButton.layer.borderColor = UIColor.whiteColor().CGColor
         loginButton.layer.borderWidth = 0.5
         loginButton.layer.cornerRadius = 1
-        timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
+                self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timeOut", userInfo: nil, repeats: true)
+        })
+        
         dispatch_async(self.sessionQueue, { () -> Void in
             APICaller.fetchCookieWithCompletionHandler({ (jsessionID) -> () in
+
                 var sess = SessionVars.sharedInstance
                 sess.jsessionID = jsessionID
                 self.timeoutTimer.invalidate()
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     UIView.animateKeyframesWithDuration(0.8, delay: 1, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
-                        self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height)
+                        self.preloadView.frame.origin = CGPointMake(0, self.view.frame.height + 2)
                         }, completion: { (complete) -> Void in
                             self.preloadView.removeFromSuperview()
+                            self.statusLabel.text = "Ready"
+                            
                     })
                 })
                 }, errorHandler: { () -> () in
@@ -60,7 +68,13 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         loginTable.scrollEnabled = false
         loginTable.separatorStyle = .None
         if Constants.is_ipad(){
+            statusLabel.font = statusLabel.font.fontWithSize(30)
             iLearnLabel.font = iLearnLabel.font.fontWithSize(100)
+            loginBtnHeightConstraint.constant *= 1.5
+            loginBtnWidthConstraint.constant *= 1.5
+            loginButton.layer.borderWidth = 2
+            iLearnBottomConstraint.constant -= 20
+            loginButton.titleLabel!.font = loginButton.titleLabel!.font.fontWithSize(35)
         }
         else{
             iLearnTableVertSpaceConstraint.constant -= 40
@@ -90,7 +104,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         println("timeout")
         timeoutCount++
         if timeoutCount == 1{
-            oneSecLabel.text = "ok maybe more."
+            oneSecLabel.text = "Um..."
             if !Constants.is_ipad(){
                 oneSecLabel.font = oneSecLabel.font.fontWithSize(50)
             }
@@ -142,24 +156,23 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         return height
     }
     func textFieldDidBeginEditing(textField: UITextField) {
+        statusLabel.text = "Ready."
         if !isEditing{
-                    textField.attributedPlaceholder = NSAttributedString(string: "")
+            textField.attributedPlaceholder = NSAttributedString(string: "")
             isEditing = true
-            if !Constants.is_ipad(){
-                var offset:CGFloat = 135
-                if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
-                    offset /= 1.5
-                }
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                        for subview in self.view.subviews{
-                            var sView = subview as UIView
-                            sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y - offset)
-                        }
-                        }, completion: { (complete) -> Void in
-                    })
-                })
+            var offset:CGFloat = 135
+            if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
+                offset /= 1.5
             }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                    for subview in self.view.subviews{
+                        var sView = subview as UIView
+                        sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y - offset)
+                    }
+                    }, completion: { (complete) -> Void in
+                })
+            })
             
         }
     }
@@ -180,6 +193,7 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
             else{
                 textField.resignFirstResponder()
                 finishEditing()
+                statusLabel.text = "Connecting."
                 var sess = SessionVars.sharedInstance
                 let params = "username=\(cellArray[0].input.text)&password=\(textField.text)&lt=e1s1&_eventId=submit&submit=LOGIN"
                 println(params)
@@ -214,25 +228,22 @@ class LoginController: UIViewController, UITableViewDataSource, UITableViewDeleg
         
     }
     func finishEditing(){
-        if !Constants.is_ipad(){
-            var offset:CGFloat = 135
-            if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
-                offset /= 1.5
-            }
-            println("\(offset)")
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                    for subview in self.view.subviews{
-                        var sView = subview as UIView
-                        sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y + offset)
-                    }
-                    }, completion: { (complete) -> Void in
-                        self.isEditing = false
-                })
-                
-                
-            })
+        var offset:CGFloat = 135
+        if !Constants.is_iPhone4() && !Constants.is_iPhone5(){
+            offset /= 1.5
         }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                for subview in self.view.subviews{
+                    var sView = subview as UIView
+                    sView.frame.origin = CGPointMake(sView.frame.origin.x, sView.frame.origin.y + offset)
+                }
+                }, completion: { (complete) -> Void in
+                    self.isEditing = false
+            })
+            
+            
+        })
     }
 }
 
